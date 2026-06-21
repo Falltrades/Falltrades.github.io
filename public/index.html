@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Falltrades</title>
+<meta name="description" content="Developer and builder. Android apps, platform engineering, CI/CD pipelines.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Lexend:wght@300;400;500;700&family=Outfit:wght@400;600;800&display=swap');
+
+:root{
+  --bg0:#07091A;--bg1:#0D1026;--bg2:#151933;
+  --violet:#8B5CF6;--fuchsia:#D946EF;
+  --cyan:#06B6D4;
+  --t1:#F0F0FF;--t2:#94A3B8;--t3:#64748B;
+  --bd:rgba(255,255,255,0.07);--bd2:rgba(139,92,246,0.3);
+  --glow:rgba(139,92,246,0.12);
+  --accent-grad:linear-gradient(135deg,var(--violet),var(--fuchsia));
+  --fn:'Lexend',sans-serif;--fd:'Outfit',sans-serif;--fm:'JetBrains Mono',monospace;
+}
+
+[data-theme="light"]{
+  --bg0:#F6F5FA;--bg1:#FAF9FE;--bg2:#EDEBF6;
+  --violet:#7C3AED;--fuchsia:#C026D3;
+  --cyan:#0891B2;
+  --t1:#2A2640;--t2:#4B5365;--t3:#6B7280;
+  --bd:rgba(0,0,0,0.07);--bd2:rgba(124,58,237,0.25);
+  --glow:rgba(124,58,237,0.06);
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  background:
+    radial-gradient(ellipse 70% 40% at 50% -5%, var(--glow) 0%, transparent 65%),
+    var(--bg0);
+  color:var(--t1);
+  font-family:var(--fn);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  transition:background-color .25s ease, color .25s ease;
+}
+
+.wrap{ max-width:720px; margin:0 auto; padding:0 24px; }
+
+/* ── Header ── */
+header{
+  padding:44px 0 0;
+  display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+}
+.logo{
+  font-family:var(--fd); font-weight:800; font-size:1.25rem;
+  background:var(--accent-grad);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.controls{ display:flex; gap:8px; }
+.ctrl-btn{
+  display:flex; align-items:center; gap:5px;
+  font-family:var(--fm); font-size:.65rem; font-weight:500;
+  letter-spacing:1px;
+  color:var(--t2); background:var(--bg2);
+  border:1px solid var(--bd); border-radius:10px;
+  padding:7px 11px; cursor:pointer;
+  transition:border-color .15s, color .15s, transform .15s;
+}
+.ctrl-btn:hover{ border-color:var(--bd2); color:var(--t1); }
+.ctrl-btn:active{ transform:translateY(1px); }
+.ctrl-btn:focus-visible{ outline:2px solid var(--t1); outline-offset:2px; }
+.ctrl-btn svg{ width:13px; height:13px; flex-shrink:0; }
+.ctrl-btn .moon{ display:none; }
+[data-theme="light"] .ctrl-btn .sun{ display:none; }
+[data-theme="light"] .ctrl-btn .moon{ display:block; }
+
+/* ── Hero ── */
+.hero{ padding:72px 0 64px; }
+
+.prompt-line{
+  font-family:var(--fm); font-size:.82rem;
+  color:var(--t3); margin-bottom:28px;
+  display:flex; align-items:center; gap:0;
+}
+.prompt-line .ps1{ color:var(--violet); }
+.prompt-line .cmd{ color:var(--t2); }
+.prompt-line .cursor{
+  display:inline-block; width:2px; height:.9em;
+  background:var(--fuchsia); margin-left:2px;
+  vertical-align:middle;
+  animation:blink 1s step-end infinite;
+}
+@keyframes blink{ 50%{ opacity:0; } }
+@media (prefers-reduced-motion: reduce){
+  .prompt-line .cursor{ animation:none; }
+}
+
+h1{
+  font-family:var(--fd); font-weight:800;
+  font-size:clamp(28px, 5vw, 44px);
+  line-height:1.12; margin:0 0 20px;
+}
+h1 em{
+  font-style:normal;
+  background:var(--accent-grad);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.bio{
+  font-size:clamp(15px, 2vw, 17px); line-height:1.75;
+  color:var(--t2); font-weight:300; margin:0;
+  max-width:58ch;
+}
+.bio strong{ color:var(--t1); font-weight:500; }
+
+/* ── Divider ── */
+.rule{ height:1px; background:var(--bd); margin:56px 0; }
+
+/* ── Project blocks ── */
+.block{ margin-bottom:52px; }
+
+.block-eyebrow{
+  font-family:var(--fm); font-size:.62rem;
+  letter-spacing:3px; text-transform:uppercase;
+  color:var(--t3); margin-bottom:14px;
+  display:flex; align-items:center; gap:10px;
+}
+.block-eyebrow::before{
+  content:''; display:inline-block;
+  width:5px; height:5px; border-radius:50%;
+  background:var(--violet); flex-shrink:0;
+}
+.block-eng .block-eyebrow::before{ background:var(--cyan); }
+
+.block h2{
+  font-family:var(--fd); font-weight:700;
+  font-size:1.3rem; margin:0 0 10px; color:var(--t1);
+}
+.block p{
+  font-size:.92rem; line-height:1.7;
+  color:var(--t2); margin:0 0 20px; font-weight:300;
+}
+
+.pill-row{ display:flex; flex-wrap:wrap; gap:7px; margin-bottom:22px; }
+.pill{
+  font-family:var(--fm); font-size:.6rem;
+  padding:3px 10px; border-radius:20px;
+}
+.pill-v{ background:rgba(139,92,246,.1); border:1px solid rgba(139,92,246,.2); color:var(--violet); }
+.pill-c{ background:rgba(6,182,212,.1); border:1px solid rgba(6,182,212,.2); color:var(--cyan); }
+
+.block-link{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--fn); font-size:.85rem; font-weight:600;
+  text-decoration:none; color:var(--t1);
+  background:var(--bg2); border:1px solid var(--bd);
+  border-radius:12px; padding:10px 18px;
+  transition:border-color .15s, transform .15s;
+}
+.block-link:hover{ border-color:var(--bd2); transform:translateY(-1px); }
+.block-link:focus-visible{ outline:2px solid var(--t1); outline-offset:3px; }
+.block-link svg{ width:14px; height:14px; color:var(--t3); flex-shrink:0; }
+
+/* ── Footer ── */
+footer{
+  border-top:1px solid var(--bd);
+  padding:20px 0 44px;
+  font-family:var(--fm); font-size:.72rem; color:var(--t3);
+}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <span class="logo">Falltrades</span>
+  <div class="controls">
+    <button class="ctrl-btn" id="themeToggle" type="button" aria-label="Toggle theme">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <span id="themeLabel">DARK</span>
+    </button>
+    <button class="ctrl-btn" id="langToggle" type="button" aria-label="Changer la langue">
+      <span id="langLabel">EN</span>
+    </button>
+  </div>
+</header>
+
+<section class="hero wrap">
+  <div class="prompt-line">
+    <span class="ps1">falltrades@github</span>
+    <span style="color:var(--t3)">:~$&nbsp;</span>
+    <span class="cmd" id="tw"></span>
+    <span class="cursor"></span>
+  </div>
+
+  <h1 data-i18n="heroTitle">Simple engineer.<br><em data-i18n="heroTitleEm">Building things that work.</em></h1>
+  <p class="bio" data-i18n="bio">
+    I build <strong data-i18n="bioStrong1">Android apps and web tools</strong> that solve everyday problems,
+    and I care as much about the <strong data-i18n="bioStrong2">infrastructure around the code</strong>
+    as the code itself — CI pipelines, test coverage, deployment automation.
+    Curious about delivering with speed, quality and efficiency.
+  </p>
+</section>
+
+<div class="rule wrap"></div>
+
+<main class="wrap">
+
+  <div class="block">
+    <div class="block-eyebrow" data-i18n="stellaEyebrow">Apps &amp; side projects</div>
+    <h2>StellaSecret</h2>
+    <p data-i18n="stellaDesc">
+      Small, focused apps built around real problems —
+      health tracking, travel planning, board game scoring, shopping math.
+      Seven apps shipped, two live on the Play Store, all with privacy policies
+      in French and English maintained as versioned code.
+    </p>
+    <div class="pill-row">
+      <span class="pill pill-v">Android · Kotlin</span>
+      <span class="pill pill-v">Flutter</span>
+      <span class="pill pill-v">Capacitor</span>
+      <span class="pill pill-v">Playwright E2E</span>
+      <span class="pill pill-v">GitHub Actions</span>
+    </div>
+    <a class="block-link" href="https://stellasecret.github.io" target="_blank" rel="noopener">
+      stellasecret.github.io
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
+  </div>
+
+  <div class="block block-eng">
+    <div class="block-eyebrow" data-i18n="cloudEyebrow">Cloud infrastructure</div>
+    <h2>cloud-example</h2>
+    <p data-i18n="cloudDesc">
+      IaC reference implementations — the same apps deployed across
+      nine AWS compute options (EC2, ECS, EKS, Lambda, S3, Amplify…)
+      so the tradeoffs are concrete and comparable.
+      Covers static sites, web apps with a database, and event-driven architectures,
+      each with Terraform, Docker, Ansible, and Helm charts where relevant.
+    </p>
+    <div class="pill-row">
+      <span class="pill pill-c">Terraform</span>
+      <span class="pill pill-c">AWS · EC2 · ECS · EKS</span>
+      <span class="pill pill-c">Lambda · S3 · RDS</span>
+      <span class="pill pill-c">Ansible</span>
+      <span class="pill pill-c">Helm</span>
+      <span class="pill pill-c">Docker</span>
+    </div>
+    <a class="block-link" href="https://github.com/Falltrades/cloud-example" target="_blank" rel="noopener">
+      github.com/Falltrades/cloud-example
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
+  </div>
+
+  <div class="block block-eng">
+    <div class="block-eyebrow" data-i18n="engEyebrow">Platform engineering</div>
+    <h2 data-i18n="engTitle">Engineering notes</h2>
+    <p data-i18n="engDesc">
+      Write-ups on real projects — GitOps with ArgoCD on
+      <a href="https://cloud-pi-native.fr" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:underline">Cloud Pi Native</a>,
+      automated Playwright integration tests scheduled via Kubernetes,
+      and fully automated release workflows where nothing
+      goes to production without passing a pipeline.
+    </p>
+    <div class="pill-row">
+      <span class="pill pill-c">ArgoCD · GitOps</span>
+      <span class="pill pill-c">Playwright</span>
+      <span class="pill pill-c">Kubernetes</span>
+      <span class="pill pill-c">Helm</span>
+      <span class="pill pill-c">Vault</span>
+    </div>
+    <a class="block-link" href="/engineering/">
+      falltrades.github.io/engineering
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+
+</main>
+
+<footer class="wrap">© 2026 Falltrades</footer>
+
+<script>
+(function(){
+  var i18n = {
+    en: {
+      heroTitle:    'Simple engineer.',
+      heroTitleEm:  'Building things that work.',
+      bio:          'I build {bioStrong1} that solve everyday problems, and I care as much about the {bioStrong2} as the code itself — CI pipelines, test coverage, deployment automation. Curious about delivering with speed, quality and efficiency.',
+      bioStrong1:   'Android apps and web tools',
+      bioStrong2:   'infrastructure around the code',
+      stellaEyebrow:'Apps & side projects',
+      stellaDesc:   'Small, focused apps built around real problems — health tracking, travel planning, board game scoring, shopping math. Seven apps shipped, two live on the Play Store, all with privacy policies in French and English maintained as versioned code.',
+      cloudEyebrow: 'Cloud infrastructure',
+      cloudDesc:    'IaC reference implementations — the same apps deployed across nine AWS compute options (EC2, ECS, EKS, Lambda, S3, Amplify…) so the tradeoffs are concrete and comparable. Covers static sites, web apps with a database, and event-driven architectures, each with Terraform, Docker, Ansible, and Helm charts where relevant.',
+      engEyebrow:   'Platform engineering',
+      engTitle:     'Engineering notes',
+      engDesc:      'Write-ups on real projects — GitOps with ArgoCD on {cloudLink}, automated Playwright integration tests scheduled via Kubernetes, and fully automated release workflows where nothing goes to production without passing a pipeline.',
+      themeDark:    'DARK',
+      themeLight:   'LIGHT',
+      langAria:     'Switch to French',
+      themeAria:    'Toggle theme',
+      cmds: ['whoami', 'cat about.md', 'git log --oneline', 'ls ./projects']
+    },
+    fr: {
+      heroTitle:    'Ingénieur simple.',
+      heroTitleEm:  'Je construis des choses qui fonctionnent.',
+      bio:          'Je construis des {bioStrong1} qui résolvent des problèmes du quotidien, et je soigne autant {bioStrong2} que le code lui-même — pipelines CI, couverture de tests, automatisation du déploiement. Passionné par la livraison rapide, qualitative et efficace.',
+      bioStrong1:   'apps Android et outils web',
+      bioStrong2:   "l'infrastructure autour du code",
+      stellaEyebrow:'Apps & projets personnels',
+      stellaDesc:   'Des apps simples et ciblées, nées de vrais problèmes — suivi de l\'asthme, planification de trajets, scores de jeux de société, calcul de prix unitaires. Sept apps livrées, deux sur le Play Store, avec des politiques de confidentialité en français et en anglais maintenues comme du code versionné.',
+      cloudEyebrow: 'Infrastructure cloud',
+      cloudDesc:    'Des implémentations IaC de référence — les mêmes apps déployées sur neuf options de calcul AWS (EC2, ECS, EKS, Lambda, S3, Amplify…) pour rendre les compromis concrets et comparables. Couvre les sites statiques, les apps web avec base de données et les architectures événementielles, avec Terraform, Docker, Ansible et des charts Helm selon les cas.',
+      engEyebrow:   'Platform engineering',
+      engTitle:     'Notes d\'ingénierie',
+      engDesc:      'Retours sur de vrais projets — GitOps avec ArgoCD sur {cloudLink}, tests d\'intégration Playwright automatisés via Kubernetes, et workflows de release entièrement automatisés où rien ne part en production sans passer par un pipeline.',
+      themeDark:    'SOMBRE',
+      themeLight:   'CLAIR',
+      langAria:     'Passer en anglais',
+      themeAria:    'Changer le thème',
+      cmds: ['whoami', 'cat apropos.md', 'git log --oneline', 'ls ./projets']
+    }
+  };
+
+  var root = document.documentElement;
+  var themeBtn   = document.getElementById('themeToggle');
+  var themeLabel = document.getElementById('themeLabel');
+  var langBtn    = document.getElementById('langToggle');
+  var langLabel  = document.getElementById('langLabel');
+  var cloudLink  = '<a href="https://cloud-pi-native.fr" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:underline">Cloud Pi Native</a>';
+
+  var currentLang = localStorage.getItem('lang') ||
+    ((navigator.language || '').toLowerCase().startsWith('fr') ? 'fr' : 'en');
+  var currentTheme = localStorage.getItem('theme') ||
+    (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+
+  /* ── Theme ── */
+  function applyTheme(t){
+    if(t === 'light') root.setAttribute('data-theme','light');
+    else              root.removeAttribute('data-theme');
+    var d = i18n[currentLang];
+    themeLabel.textContent = t === 'light' ? d.themeLight : d.themeDark;
+    themeBtn.setAttribute('aria-label', d.themeAria);
+  }
+
+  themeBtn.addEventListener('click', function(){
+    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', currentTheme);
+    applyTheme(currentTheme);
+  });
+
+  /* ── Language ── */
+  function applyLang(lang){
+    currentLang = lang;
+    root.setAttribute('lang', lang);
+    var d = i18n[lang];
+
+    /* Simple keyed elements */
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var key = el.getAttribute('data-i18n');
+      if(!d[key]) return;
+      /* bio and engDesc need inline HTML — use innerHTML carefully */
+      if(key === 'bio'){
+        el.innerHTML = d.bio
+          .replace('{bioStrong1}', '<strong data-i18n="bioStrong1">' + d.bioStrong1 + '</strong>')
+          .replace('{bioStrong2}', '<strong data-i18n="bioStrong2">' + d.bioStrong2 + '</strong>');
+      } else if(key === 'engDesc' || key === 'cloudDesc'){
+        el.innerHTML = d[key].replace('{cloudLink}', cloudLink);
+      } else {
+        el.textContent = d[key];
+      }
+    });
+
+    langLabel.textContent = lang === 'fr' ? 'FR' : 'EN';
+    langBtn.setAttribute('aria-label', d.langAria);
+    applyTheme(currentTheme);
+
+    /* Update typewriter word list */
+    if(twWords) twWords = d.cmds;
+  }
+
+  applyLang(currentLang);
+
+  langBtn.addEventListener('click', function(){
+    var next = currentLang === 'fr' ? 'en' : 'fr';
+    localStorage.setItem('lang', next);
+    applyLang(next);
+  });
+
+  /* ── Typewriter ── */
+  var twWords = i18n[currentLang].cmds;
+  var el = document.getElementById('tw');
+  var i = 0, c = 0, del = false, pause = 0;
+  function tick(){
+    if(pause > 0){ pause--; setTimeout(tick, 80); return; }
+    var w = twWords[i % twWords.length];
+    if(!del){ el.textContent = w.slice(0, ++c); if(c === w.length){ del = true; pause = 20; } }
+    else     { el.textContent = w.slice(0, --c); if(c === 0){ del = false; i++; pause = 5; } }
+    setTimeout(tick, del ? 38 : 88);
+  }
+  tick();
+})();
+</script>
+
+</body>
+</html>
